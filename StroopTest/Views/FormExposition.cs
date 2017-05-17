@@ -219,7 +219,7 @@ namespace StroopTest
                         }
 
                         elapsedTime = elapsedTime + (DateTime.Now.Second * 1000) + DateTime.Now.Millisecond; // grava tempo decorrido
-                        SendKeys.SendWait("s");
+                        SendKeys.SendWait("=");
                         if (programInUse.SubtitleShow)
                         {
                             subtitleCounter = showSubtitle(subtitleCounter, subtitlesArray);
@@ -356,7 +356,7 @@ namespace StroopTest
                             else { imgPictureBox.Image = Image.FromFile(imageDirs[arrayCounter]); }
 
                             elapsedTime = elapsedTime + (DateTime.Now.Second * 1000) + DateTime.Now.Millisecond; // grava tempo decorrido
-                            SendKeys.SendWait("s");
+                            SendKeys.SendWait("=");
                             imgPictureBox.Visible = true;
                             if (programInUse.SubtitleShow)
                             {
@@ -383,7 +383,7 @@ namespace StroopTest
 
                                 
                                 elapsedTime = elapsedTime + (DateTime.Now.Second * 1000) + DateTime.Now.Millisecond; // grava tempo decorrido
-                                SendKeys.SendWait("s");
+                                SendKeys.SendWait("=");
                                 imgPictureBox.Visible = false;
                                 subtitleLabel.Visible = false;
                                 wordLabel.ForeColor = ColorTranslator.FromHtml(programInUse.WordColor);
@@ -427,7 +427,7 @@ namespace StroopTest
                             }
                             
                             elapsedTime = elapsedTime + (DateTime.Now.Second * 1000) + DateTime.Now.Millisecond; // grava tempo decorrido
-                            SendKeys.SendWait("s");
+                            SendKeys.SendWait("=");
 
                             imgPictureBox.Visible = true;
 
