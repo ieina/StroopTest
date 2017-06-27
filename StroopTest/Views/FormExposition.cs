@@ -17,6 +17,7 @@ using System.Media;
 using System.Drawing.Drawing2D;
 using StroopTest.Models;
 using StroopTest.Controllers;
+using System.Diagnostics;
 
 namespace StroopTest
 {
@@ -179,10 +180,13 @@ namespace StroopTest
                     elapsedTime = 0; // elapsed time to zero
                     subtitleCounter = 0;
                     changeBackgroundColor(programInUse, true); // changes background color, if there is one defined
+                    Stopwatch stopwatch = new Stopwatch();
+                    stopwatch.Start();
                     await Task.Delay(programInUse.IntervalTime, cts.Token); // first interval before exposition begins
                     if (programInUse.AudioCapture && programInUse.ExpositionType != "txtaud") {
                         startRecordingAudio();
-                    } 
+                    }
+                    
                     // exposition loop:
                     for (int counter = 1; counter <= programInUse.NumExpositions; counter++) 
                     {
@@ -218,7 +222,7 @@ namespace StroopTest
                             Player.Play();
                         }
 
-                        elapsedTime = elapsedTime + (DateTime.Now.Second * 1000) + DateTime.Now.Millisecond; // grava tempo decorrido
+                        elapsedTime = stopwatch.ElapsedMilliseconds; // grava tempo decorrido
                         SendKeys.SendWait("=");
                         if (programInUse.SubtitleShow)
                         {
@@ -228,7 +232,7 @@ namespace StroopTest
                         
 
 
-                        StroopProgram.writeLineOutput(programInUse, textCurrent, colorCurrent, counter, outputContent, elapsedTime, programInUse.ExpositionType, audioDetail, hour, minutes, seconds);
+                        StroopProgram.writeLineOutput(programInUse, textCurrent, colorCurrent, counter, outputContent, elapsedTime, programInUse.ExpositionType, audioDetail);
                         
                         await Task.Delay(programInUse.ExpositionTime, cts.Token);
                     }
@@ -326,7 +330,8 @@ namespace StroopTest
                     j = 0; subtitleCounter = 0;
                     arrayCounter = 0;
                     var audioCounter = 0;
-                    
+                    Stopwatch stopwatch = new Stopwatch();
+                    stopwatch.Start();
                     await Task.Delay(programInUse.IntervalTime, cts.Token);
                     string printCount = "";
                     // beginAudio
@@ -355,7 +360,7 @@ namespace StroopTest
                             if(programInUse.RotateImage != 0) { imgPictureBox.Image = RotateImage(imageDirs[arrayCounter], programInUse.RotateImage); }
                             else { imgPictureBox.Image = Image.FromFile(imageDirs[arrayCounter]); }
 
-                            elapsedTime = elapsedTime + (DateTime.Now.Second * 1000) + DateTime.Now.Millisecond; // grava tempo decorrido
+                            elapsedTime = stopwatch.ElapsedMilliseconds; // grava tempo decorrido
                             SendKeys.SendWait("=");
                             imgPictureBox.Visible = true;
                             if (programInUse.SubtitleShow)
@@ -367,7 +372,7 @@ namespace StroopTest
                             arrayCounter++;
 
 
-                            StroopProgram.writeLineOutput(programInUse, actualImagePath, "false", counter + 1, outputContent, elapsedTime, "img", audioDetail, hour, minutes, seconds);
+                            StroopProgram.writeLineOutput(programInUse, actualImagePath, "false", counter + 1, outputContent, elapsedTime, "img", audioDetail);
                             
                             await Task.Delay(programInUse.ExpositionTime, cts.Token);
                             
@@ -382,7 +387,7 @@ namespace StroopTest
                                 wordLabel.Text = labelText[j];
 
                                 
-                                elapsedTime = elapsedTime + (DateTime.Now.Second * 1000) + DateTime.Now.Millisecond; // grava tempo decorrido
+                                elapsedTime = stopwatch.ElapsedMilliseconds; // grava tempo decorrido
                                 SendKeys.SendWait("=");
                                 imgPictureBox.Visible = false;
                                 subtitleLabel.Visible = false;
@@ -395,7 +400,7 @@ namespace StroopTest
                                 actualImagePath = wordLabel.Text;
                                 j++;
 
-                                StroopProgram.writeLineOutput(programInUse, actualImagePath, "false", counter + 1, outputContent, elapsedTime, "txt", audioDetail, hour, minutes, seconds);
+                                StroopProgram.writeLineOutput(programInUse, actualImagePath, "false", counter + 1, outputContent, elapsedTime, "txt", audioDetail);
                                 
                                 await Task.Delay(programInUse.ExpositionTime, cts.Token);
                             }
@@ -426,7 +431,7 @@ namespace StroopTest
                                 Player.Play();
                             }
                             
-                            elapsedTime = elapsedTime + (DateTime.Now.Second * 1000) + DateTime.Now.Millisecond; // grava tempo decorrido
+                            elapsedTime = stopwatch.ElapsedMilliseconds; // grava tempo decorrido
                             SendKeys.SendWait("=");
 
                             imgPictureBox.Visible = true;
@@ -436,7 +441,7 @@ namespace StroopTest
                                 subtitleCounter = showSubtitle(subtitleCounter, subtitlesArray);
                             }
 
-                            StroopProgram.writeLineOutput(programInUse, Path.GetFileName(imageDirs[arrayCounter].ToString()), "false", counter + 1, outputContent, elapsedTime, programInUse.ExpositionType, Path.GetFileNameWithoutExtension(audioDetail), hour, minutes, seconds);
+                            StroopProgram.writeLineOutput(programInUse, Path.GetFileName(imageDirs[arrayCounter].ToString()), "false", counter + 1, outputContent, elapsedTime, programInUse.ExpositionType, Path.GetFileNameWithoutExtension(audioDetail));
                             
                             arrayCounter++;
                             await Task.Delay(programInUse.ExpositionTime, cts.Token);
